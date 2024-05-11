@@ -257,9 +257,6 @@ export class GameState {
     }
     this.totalBall -= result.length;
     this.totalScore += result.length * (result.length - 4);
-    if (this.totalBall <= 0 || this.totalScore >= GAME_CONFIG.WIN_PRICE_SCORE) {
-      this.gameState = GAME_STATE.WIN_PRICE;
-    }
     return result;
   }
 

@@ -1,5 +1,4 @@
 export const GAME_CONFIG = {
-  WIN_PRICE_SCORE:       15,
   BOARD_DIMENSION:       9,
   BALL_MOVING_SPEED:     0.05, // moving step of ball demostration duration
   BALL_GENERATING_COUNT: 3,
@@ -24,7 +23,6 @@ export const GAME_STATE = {
   BALL_MOVING:     4,
   BALL_SCORING:    5,
   GAME_OVER:       100,
-  WIN_PRICE:       101,
 };
 
 export const BALL_STATE = {

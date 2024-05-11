@@ -71,15 +71,13 @@ class Line98 {
   }
 
   initializeGameEngine() {
-    let winPriceCallBack = null;
     let scoreBoardEle = document.getElementById(this.namePrefix + 'ScoreBoard');
     let scoreBoard = new ScoreBoard(scoreBoardEle);
     let gameState = new GameState(this.dimension);
     let engine = new GameEngine(
       gameState,
       this.ballManager,
-      scoreBoard,
-      winPriceCallBack
+      scoreBoard
     );
     // Add ResetListener interface implementation to GameEngine
     Object.assign(engine, ResetListener);
