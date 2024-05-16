@@ -120,11 +120,22 @@ export var BallManagerListener = {
           let c = rid % this.ballManager.config.dimension;
           this.ballManager.state.balls[r][c] = 0;
         }
-        this.ballManager.ballState = BALL_STATE.OPERATING_DONE;
         // GameState post processing
         let totalScore = this.gameState.getTotalScore();
         this.scoreBoard.display(totalScore);
-        this.gameState.setState(GAME_STATE.MOVE_WAITING);
+        if (this.gameState.isEmpty()) {
+          let balls = this.gameState.generateBalls(GAME_CONFIG.BALL_GENERATING_COUNT);
+          this.gameState.setState(GAME_STATE.BALL_GENERATING)
+          this.ballManager.generateBallsAnimation(balls);
+          let _this = this;
+          setTimeout(function() {
+            _this.animationDone(balls[balls.length - 1]);
+          }, 2);
+        }
+        else {
+          this.ballManager.ballState = BALL_STATE.OPERATING_DONE;
+          this.gameState.setState(GAME_STATE.MOVE_WAITING);
+        }
       break;
 
       default:

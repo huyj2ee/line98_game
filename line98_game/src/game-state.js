@@ -25,6 +25,20 @@ export class GameState {
     this.focusedBall = null;
   }
 
+  isEmpty() {
+    let dimension = this.matrix.length;
+    let r = 0;
+    let c = 0;
+    for (r = 0; r < dimension; r++) {
+      for (c = 0; c < dimension; c++) {
+        if (this.matrix[r][c] !== 0) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
   isOccupied(ball) {
     let dimension = this.matrix.length;
     let r = Math.floor(ball / dimension);
@@ -123,24 +137,26 @@ export class GameState {
     let balls = Array(count);
     let i = 0;
     let idx = 0;
-    for (i = 0; i < count; i++) {
-      idx = this.generateBallPosition();
-      let colourId = Math.floor(Math.random() * 7) + 1;
-      let j = 0;
-      for (j = i - 1; j >= 0; j--) {
-        if (idx === balls[j][0]) {
-          // re-generate because of duplicated position
-          idx = this.generateBallPosition();
-          j = i - 1;
+    if (document.getElementById('genCheat') === null) {
+      for (i = 0; i < count; i++) {
+        idx = this.generateBallPosition();
+        let colourId = Math.floor(Math.random() * 7) + 1;
+        let j = 0;
+        for (j = i - 1; j >= 0; j--) {
+          if (idx === balls[j][0]) {
+            // re-generate because of duplicated position
+            idx = this.generateBallPosition();
+            j = i - 1;
+          }
         }
+        balls[i] = [idx, colourId];
+        let r = Math.floor(idx / dimension);
+        let c = idx % dimension;
+        this.matrix[r][c] = colourId;
       }
-      balls[i] = [idx, colourId];
-      let r = Math.floor(idx / dimension);
-      let c = idx % dimension;
-      this.matrix[r][c] = colourId;
     }
-    // Generate ball cheat code for debug purpose
-    if (document.getElementById('genCheat') !== null) {
+    else {
+      // Generate ball cheat code for debug purpose
       let txts = document.getElementById('genCheat').value;
       let rawBalls = JSON.parse(txts);
       for (i = 0; i < count; i++) {
