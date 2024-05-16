@@ -126,14 +126,6 @@ export class GameState {
     for (i = 0; i < count; i++) {
       idx = this.generateBallPosition();
       let colourId = Math.floor(Math.random() * 7) + 1;
-      // Generate ball cheat code for debug purpose
-      /*if (document.getElementById('genCheat') !== null && i === 0) {
-        let txts = document.getElementById('genCheat').value.split(" ");
-        if (txts.length == 2) {
-          idx = parseInt(txts[0]);
-          colourId = parseInt(txts[1]);
-        }
-      }*/
       let j = 0;
       for (j = i - 1; j >= 0; j--) {
         if (idx === balls[j][0]) {
@@ -146,6 +138,15 @@ export class GameState {
       let r = Math.floor(idx / dimension);
       let c = idx % dimension;
       this.matrix[r][c] = colourId;
+    }
+    // Generate ball cheat code for debug purpose
+    if (document.getElementById('genCheat') !== null) {
+      let txts = document.getElementById('genCheat').value;
+      let rawBalls = JSON.parse(txts);
+      for (i = 0; i < count; i++) {
+        balls[i] = [rawBalls[i][0] * dimension + rawBalls[i][1], rawBalls[i][2]];
+        this.matrix[rawBalls[i][0]][rawBalls[i][1]] = rawBalls[i][2];
+      }
     }
     this.totalBall += balls.length;
     return balls;
